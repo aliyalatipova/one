@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Random;
 
 public class Activity_learn extends AppCompatActivity implements View.OnClickListener {
@@ -41,6 +43,7 @@ public class Activity_learn extends AppCompatActivity implements View.OnClickLis
         ansB.setOnClickListener((View.OnClickListener) this);
         submitBtn.setOnClickListener(this);
         btn_back.setOnClickListener(this);
+        Collections.shuffle(Arrays.asList(QuestionAnswer.choices));
 
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override

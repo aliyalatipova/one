@@ -1,5 +1,7 @@
 package com.example.quiz;
 
+import static com.example.quiz.QuestionAnswer.choices;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
@@ -11,9 +13,14 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.View;
 import android.widget.Button;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import android.widget.TextView;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -22,12 +29,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView questionTextView;
     Button ansA, ansB;
     Button btn_back;
+    String res;
 
     int canClickFlag = 1;
-    String next = "next";
+
 
     int score = 0;
-    int totalQuestion = 6;
+
+    int totalQuestion = 2;
     int currentQuestionIndex = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,33 +48,60 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ansA = findViewById(R.id.ans_A);
         ansB = findViewById(R.id.ans_B);
 
+        Collections.shuffle(Arrays.asList(choices));
+        //List<String> list = new ArrayList<>();
+        questionTextView.setText("***\nМир");
 
+
+        res = "";
         ansA.setOnClickListener(this);
         ansB.setOnClickListener(this);
-
         btn_back.setOnClickListener(this);
 
-        //totalQuestionsTextView.setText("Total questions" + totalQuestion);
 
+        loadNewQuestion();
+
+    }
+
+
+
+    private void snth_with_db(){    //типа бд
         SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
-        db.execSQL("CREATE TABLE IF NOT EXISTS users (true_wr TEXT, age INTEGER, UNIQUE(name))");
-        db.execSQL("INSERT OR IGNORE INTO users VALUES ('Tom Smith', 23), ('John Dow', 31);");
+        db.execSQL("CREATE TABLE IF NOT EXISTS words (true_wr TEXT, false_wr TEXT, part TEXT," +
+                " liked_or TEXT, hist TEXT, UNIQUE(name))");
+        db.execSQL("INSERT OR IGNORE INTO words VALUES ('закУпорив',  'закупорИв',  'д',  0,  \"\"),\n" +
+                "('начАв',  'нАчав',  'д',  0,  \"\"),\n" +
+                "('начАвшись',  'нАчавшись',  'д',  0,  \"\"),\n" +
+                "('отдАв',  'Отдав',  'д',  0,  \"\"),\n" +
+                "('поднЯв',  'пОдняв',  'д',  0,  \"\"),\n" +
+                "('понЯв',  'пОняв',  'д',  0,  \"\"),\n" +
+                "('прибЫв',  'прИбыв',  'д',  0,  \"\"),\n" +
+                "('создАв',  'сОздав',  'д',  0,  \"\"),\n" +
+                "('вОвремя',  'вОвремя',  'н',  0,  \"\"),\n" +
+                "('дОверху',  'довЕрху',  'н',  0,  \"\"),\n" +
+                "('донЕльзя',  'дОнельзя',  'н',  0,  \"\"),\n" +
+                "('дОнизу',  'донИзу',  'н',  0,  \"\"),\n" +
+                "('дОсуха',  'досУха',  'н',  0,  \"\"),\n" +
+                "('зАсветло',  'засветлО',  'н',  0,  \"\"),\n" +
+                "('зАтемно',  'затемнО',  'н',  0,  \"\"),\n" +
+                "('красИвее',  'красИвее',  'н',  0,  \"\"),\n" +
+                "('надОлго',  'надОлго',  'н',  0,  \"\"),\n" +
+                "('ненадОлго',  'ненадОлго',  'н',  0,  \"\");");
 
-        Cursor query = db.rawQuery("SELECT * FROM users;", null);
+        Cursor query = db.rawQuery("SELECT * FROM words;", null);
         //TextView textView = findViewById(R.id.textView);
         questionTextView.setText("");
         while(query.moveToNext()){
             String name = query.getString(0);
-            int age = query.getInt(1);
-            questionTextView.append("Name: " + name + " Age: " + age + "\n");
+            String age = query.getString(1);
+            //questionTextView.append("Name: " + name + " Age: " + age + "\n");
         }
         query.close();
         db.close();
-        loadNewQuestion();
-
     }
+
     private void loadNewQuestion() {
-        if (currentQuestionIndex == totalQuestion){
+            if (currentQuestionIndex == totalQuestion){
             resQuizKnowAns();
             return;
         }
@@ -78,8 +114,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Random random = new Random();
         int i = random.nextInt(diff);
 
-        ansA.setText(QuestionAnswer.choices[currentQuestionIndex][i]);
-        ansB.setText(QuestionAnswer.choices[currentQuestionIndex][(i+1)%2]);
+        // как было до этого
+        //ansA.setText(choices[currentQuestionIndex][i]);
+        //ansB.setText(choices[currentQuestionIndex][(i+1)%2]);
+        ansA.setText(choices[currentQuestionIndex][i]);
+        ansB.setText(choices[currentQuestionIndex][(i+1)%2]);
 
 
 
@@ -87,23 +126,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     void resQuizKnowAns(){
-        Intent intent = new Intent(this, MainActivity4.class);
-        // передача объекта с ключом "hello" и значением "Hello World"
+        //Intent intent = new Intent(this, MainActivity4.class);
+        Intent intent = new Intent(this, MainActivityAfterMain.class);
+        //передача объекта с ключом "hello" и значением "Hello World"
         String text = "Вы получили " +score + " очков из " + totalQuestion + " возможных";
         intent.putExtra("hello", text);
+        intent.putExtra("res", res);
+        intent.putExtra("totalQuestion", totalQuestion);
         //запуск SecondActivitygj
         startActivity(intent);
 
+
+
     }
 
-    void restartQuiz(){
-        score = 0;
-        currentQuestionIndex = 0;
-        loadNewQuestion();
-    }
+
 
     @Override
     public void onClick(View view) {
+
 
         Button clickedButton = (Button) view;
         //String selectedAnswer = clickedButton.getText().toString();
@@ -115,11 +156,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else {
             if (canClickFlag == 1) {
                 canClickFlag = 0;
-                if (clickedButton.getText().equals(QuestionAnswer.choices[currentQuestionIndex][0])) {
+                if (clickedButton.getText().equals(choices[currentQuestionIndex][0])) {
                     clickedButton.setBackgroundColor(Color.GREEN);
+                    res = res + "+";
                     score++;
+
                 } else {
                     clickedButton.setBackgroundColor(Color.RED);
+                    res = res + "-";
+
                 }
                 currentQuestionIndex++;
 
