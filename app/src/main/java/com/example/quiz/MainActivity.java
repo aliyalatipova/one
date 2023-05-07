@@ -9,11 +9,15 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import android.widget.TextView;
@@ -21,6 +25,7 @@ import android.widget.TextView;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -30,13 +35,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button ansA, ansB;
     Button btn_back;
     String res;
+    private TextToSpeech textToSpeech;
+    private MediaPlayer zasvetloSound;
+
 
     int canClickFlag = 1;
 
 
     int score = 0;
 
-    int totalQuestion = 2;
+    int totalQuestion = 10;
     int currentQuestionIndex = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,20 +56,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ansA = findViewById(R.id.ans_A);
         ansB = findViewById(R.id.ans_B);
 
-        Collections.shuffle(Arrays.asList(choices));
-        //List<String> list = new ArrayList<>();
-        questionTextView.setText("***\nМир");
+       // Collections.shuffle(Arrays.asList(choices));
+             questionTextView.setText("***\nМир");
+
+        textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    int result = textToSpeech.setLanguage(new Locale("ru"));
+                    if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                        Log.e("TTS", "Language not supported");
+                    }
+                } else {
+                    Log.e("TTS", "Initialization failed");
+                }
+            }
+        });
 
 
         res = "";
         ansA.setOnClickListener(this);
         ansB.setOnClickListener(this);
         btn_back.setOnClickListener(this);
-
-
         loadNewQuestion();
 
     }
+
+
+
+
+
+
+
+
 
 
 
@@ -106,6 +133,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
 
+
+
+
+
         canClickFlag = 1;
         totalQuestionsTextView.setText("Номер вопроса: " +(currentQuestionIndex + 1));
         ansA.setBackgroundColor(Color.WHITE);
@@ -136,9 +167,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //запуск SecondActivitygj
         startActivity(intent);
 
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (textToSpeech != null) {
+            textToSpeech.stop();
+            textToSpeech.shutdown();
+        }
+    }
+
+    public void soundPlat(MediaPlayer sound){
+        sound.start();
 
     }
+
+
+
 
 
 
@@ -154,32 +200,50 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
         }
         else {
+            if (choices[currentQuestionIndex][0].equals("зАсветло")) {
+                zasvetloSound = MediaPlayer.create(this, R.raw.zasvetloo);
+                soundPlat(zasvetloSound);
+
+                //questionTextView.setText("uu");
+                //MediaPlayer mediaPlayer = new MediaPlayer();
+
+               // String filePath = "C:\\Users\\Hp ZBook\\Downloads\\zasvetlo.ogg";
+
+               // try {
+                   // mediaPlayer.setDataSource(filePath);
+                    //mediaPlayer.prepare();
+                //} catch (IOException e) {
+                  //  questionTextView.setText("=");
+                    //e.printStackTrace();
+               // }
+               // mediaPlayer.start();
+               // mediaPlayer.release();
+            } else {
+                // questionTextView.setText(choices[currentQuestionIndex][0]);
+                textToSpeech.speak(choices[currentQuestionIndex][0], TextToSpeech.QUEUE_ADD, null, null);
+            }
             if (canClickFlag == 1) {
                 canClickFlag = 0;
                 if (clickedButton.getText().equals(choices[currentQuestionIndex][0])) {
                     clickedButton.setBackgroundColor(Color.GREEN);
                     res = res + "+";
                     score++;
-
                 } else {
                     clickedButton.setBackgroundColor(Color.RED);
                     res = res + "-";
-
                 }
+
                 currentQuestionIndex++;
-
                 new Thread(() -> {
-
                     try {
-                        Thread.sleep(500);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                     loadNewQuestion();
                 }).start();
             }
-        }
-
 
         }
     }
+}
