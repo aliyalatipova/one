@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:backgroundTint="@color/white"
+
             android:text="н"
             android:textAllCaps="false"
             android:textColor="@color/black">
@@ -44,19 +44,22 @@
             android:id="@+id/btn_d"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAllCaps="false"
             android:text="д" />
 
         <Button
             android:id="@+id/btn_s"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAllCaps="false"
             android:text="сущ" />
 
         <Button
-            android:id="@+id/button13"
+            android:id="@+id/btn_pril"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:textAllCaps="false"
+            android:text="прил" />
 
     </LinearLayout>
 

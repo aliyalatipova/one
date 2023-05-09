@@ -37,9 +37,24 @@ public class MainActivityAfterMain extends AppCompatActivity {
         String res = arguments.get("res").toString();
         String[][] some_choices = (String[][]) getIntent().getSerializableExtra("some_choices");
         String text = arguments.get("hello").toString();
-        textView_with_res.setText(res);
+        textView_with_res.setText(text);
 
         create_btn_s(res, some_choices);
+        btn_try = new Button(this);
+        btn_try.setAllCaps(false);
+        btn_try.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        // btn[i].setText(some_choices[i][0]);
+        int id=View.generateViewId();
+        btn_try.setId(id);
+        btn_try.setText("again");
+        btn_try.setBackgroundColor(Color.MAGENTA);
+        layout_for_txt.addView(btn_try);
+        btn_try.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startMainStart();
+            }
+        });
 
 
     }
@@ -142,6 +157,15 @@ public class MainActivityAfterMain extends AppCompatActivity {
         }
         return -1;
    }
+
+    public void startMainStart(){
+        Intent intent = new Intent(this, MainStart.class);
+        //передача объекта с ключом "hello" и значением "Hello World"
+
+        //запуск SecondActivitygj
+       // intent.putExtra("some_choices",some_choices);
+        startActivity(intent);
+    }
 
     public int find_false_bid_index(int i, String[][]some_choices){ //я тупо скопировала текст с find_true_bid_index ;)
         String word_true = some_choices[i][1];

@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity  {
 
     int canClickFlag = 1;
     int score = 0;
-    public int totalQuestion = 1;
+    public int totalQuestion = 5;
     int currentQuestionIndex = 0;
 
     @Override
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_main);
         totalQuestionsTextView = findViewById(R.id.total_question);
         questionTextView = findViewById(R.id.question);
-        btn_back = findViewById(R.id.btn_back);
+
         ansA = findViewById(R.id.ans_A);
         ansB = findViewById(R.id.ans_B);
 
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity  {
        // totalQuestion = some_choices.length;
 
          Collections.shuffle(Arrays.asList(some_choices));
-        questionTextView.setText(some_choices[0][0].toString());
+        questionTextView.setText("");
 
         textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
@@ -236,7 +236,7 @@ public class MainActivity extends AppCompatActivity  {
         //Intent intent = new Intent(this, MainActivity4.class);
         Intent intent = new Intent(this, MainActivityAfterMain.class);
         //передача объекта с ключом "hello" и значением "Hello World"
-        String text = "Вы получили " +score + " очков из " + totalQuestion + " возможных";
+        String text = "Вы получили " +score + " из " + totalQuestion + " возможных очков";
         intent.putExtra("hello", text);
         intent.putExtra("res", res);
         //intent.putExtra("totalQuestion", totalQuestion);
@@ -272,12 +272,12 @@ public class MainActivity extends AppCompatActivity  {
         questionTextView.setText("--");
         Button clickedButton = (Button) view;
         //String selectedAnswer = clickedButton.getText().toString();
-        if (clickedButton.getId() == R.id.btn_back){    // если нажата кнопка btnback то переход на mainactivity2
-            btn_back.setText("");
-            Intent intent = new Intent(this, MainActivity2.class);
-            startActivity(intent);
-        }
-        else {
+        //if (clickedButton.getId() == R.id.btn_back){    // если нажата кнопка btnback то переход на mainactivity2
+            //btn_back.setText("");
+            //Intent intent = new Intent(this, MainActivity2.class);
+           // startActivity(intent);
+       // }
+
             if (some_choices[currentQuestionIndex][0].equals("зАсветло")) {
                 zasvetloSound = MediaPlayer.create(this, R.raw.zasvetloo);
                 soundPlat(zasvetloSound);
@@ -309,7 +309,7 @@ public class MainActivity extends AppCompatActivity  {
                 }).start();
             }
 
-        }
+
     }
 
 

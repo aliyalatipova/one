@@ -3,6 +3,7 @@ package com.example.quiz;
 import static com.example.quiz.QuestionAnswer.choices;
 import static com.example.quiz.QuestionAnswer.choices_d;
 import static com.example.quiz.QuestionAnswer.choices_n;
+import static com.example.quiz.QuestionAnswer.choices_pril;
 import static com.example.quiz.QuestionAnswer.choices_s;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,7 +14,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class MainStart extends AppCompatActivity implements View.OnClickListener {
-    Button btn_all, btn_d, btn_n, btn_s;
+    Button btn_back1, btn_all, btn_d, btn_n, btn_s, btn_pril;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,13 +22,23 @@ public class MainStart extends AppCompatActivity implements View.OnClickListener
         setContentView(R.layout.activity_main_start);
 
        btn_all = findViewById(R.id.btn_all);
+        btn_back1 = findViewById(R.id.btn_back1);
        btn_n = findViewById(R.id.btn_n);
        btn_d = findViewById(R.id.btn_d);
         btn_s = findViewById(R.id.btn_s);
+        btn_pril = findViewById(R.id.btn_pril);
        btn_all.setOnClickListener(this);
        btn_n.setOnClickListener(this);
        btn_d.setOnClickListener(this);
         btn_s.setOnClickListener(this);
+
+        btn_pril.setOnClickListener(this);
+        btn_back1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startMain2();
+            }
+        });
 
 
 
@@ -46,6 +57,12 @@ public class MainStart extends AppCompatActivity implements View.OnClickListener
        startActivity(intent);
    }
 
+    public void startMain2(){
+        Intent intent = new Intent(this, MainActivity2.class);
+
+        startActivity(intent);
+    }
+
     @Override
     public void onClick(View view) {
         Button clickedButton = (Button) view;
@@ -62,6 +79,9 @@ public class MainStart extends AppCompatActivity implements View.OnClickListener
         }
         if(part.equals("сущ")){
             startMainAct(choices_s);
+        }
+        if(part.equals("прил")){
+            startMainAct(choices_pril);
         }
 
 
