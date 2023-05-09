@@ -37,7 +37,7 @@ public class MainActivity2 extends AppCompatActivity {
     public void openAct1(){
 
         learn_btn.setText(""); //перепутала названия, постаралась:)))))
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, MainStart.class);
         startActivity(intent);
     }
 

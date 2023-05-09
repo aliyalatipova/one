@@ -1,6 +1,8 @@
 package com.example.quiz;
 
-import static com.example.quiz.QuestionAnswer.choices;
+//import static com.example.quiz.QuestionAnswer.choicesall;
+
+//import static com.example.quiz.QuestionAnswer.choices;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -28,7 +30,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity  {
 
     TextView totalQuestionsTextView;
     TextView questionTextView;
@@ -37,15 +39,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String res;
     private TextToSpeech textToSpeech;
     private MediaPlayer zasvetloSound;
+    public String[][] some_choices;
 
 
     int canClickFlag = 1;
-
-
     int score = 0;
-
-    int totalQuestion = 10;
+    public int totalQuestion = 1;
     int currentQuestionIndex = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,8 +57,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ansA = findViewById(R.id.ans_A);
         ansB = findViewById(R.id.ans_B);
 
-       // Collections.shuffle(Arrays.asList(choices));
-             questionTextView.setText("***\nМир");
+        String[][] some_choices = (String[][]) getIntent().getSerializableExtra("some_choices");
+
+       // totalQuestion = some_choices.length;
+
+         Collections.shuffle(Arrays.asList(some_choices));
+        questionTextView.setText(some_choices[0][0].toString());
 
         textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
@@ -75,11 +80,81 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         res = "";
-        ansA.setOnClickListener(this);
-        ansB.setOnClickListener(this);
-        btn_back.setOnClickListener(this);
-        loadNewQuestion();
+        ansA.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                a_clicked(some_choices);
+            }
+        });
+        ansB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                b_clicked(some_choices);
+            }
+        });
+       // btn_back.setOnClickListener(this);
+        loadNewQuestion(some_choices);
 
+    }
+
+    public void a_clicked(String[][] some_choices){
+        if (some_choices[currentQuestionIndex][0].equals("зАсветло")) {
+            zasvetloSound = MediaPlayer.create(this, R.raw.zasvetloo);
+            soundPlat(zasvetloSound);
+        }else{
+            textToSpeech.speak(some_choices[currentQuestionIndex][0], TextToSpeech.QUEUE_ADD, null, null);
+        }
+
+        if (canClickFlag == 1) {
+            canClickFlag = 0;
+            if (ansA.getText().equals(some_choices[currentQuestionIndex][0])) {
+                ansA.setBackgroundColor(Color.GREEN);
+                res = res + "+";
+                score++;
+            } else {
+                ansA.setBackgroundColor(Color.RED);
+                res = res + "-";
+            }
+            currentQuestionIndex++;
+            new Thread(() -> {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                loadNewQuestion(some_choices);
+            }).start();
+        }
+    }
+
+    public void b_clicked(String[][] some_choices){
+        //  ansA.setBackgroundColor(Color.MAGENTA);
+        if (some_choices[currentQuestionIndex][0].equals("зАсветло")) {
+            zasvetloSound = MediaPlayer.create(this, R.raw.zasvetloo);
+            soundPlat(zasvetloSound);
+        }else{
+            textToSpeech.speak(some_choices[currentQuestionIndex][0], TextToSpeech.QUEUE_ADD, null, null);
+        }
+        if (canClickFlag == 1) {
+            canClickFlag = 0;
+            if (ansB.getText().equals(some_choices[currentQuestionIndex][0])) {
+                ansB.setBackgroundColor(Color.GREEN);
+                res = res + "+";
+                score++;
+            } else {
+                ansB.setBackgroundColor(Color.RED);
+                res = res + "-";
+            }
+            currentQuestionIndex++;
+            new Thread(() -> {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                loadNewQuestion(some_choices);
+            }).start();
+        }
     }
 
 
@@ -127,10 +202,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         db.close();
     }
 
-    private void loadNewQuestion() {
+    private void loadNewQuestion(String[][] some_choices) {
             if (currentQuestionIndex == totalQuestion){
-            resQuizKnowAns();
-            return;
+                //questionTextView.setText("-");
+                resQuizKnowAns(some_choices);
+                return;
         }
 
 
@@ -146,24 +222,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int i = random.nextInt(diff);
 
         // как было до этого
-        //ansA.setText(choices[currentQuestionIndex][i]);
+
         //ansB.setText(choices[currentQuestionIndex][(i+1)%2]);
-        ansA.setText(choices[currentQuestionIndex][i]);
-        ansB.setText(choices[currentQuestionIndex][(i+1)%2]);
+        ansA.setText(some_choices[currentQuestionIndex][i]);
+        ansB.setText(some_choices[currentQuestionIndex][(i+1)%2]);
 
 
 
 
     }
 
-    void resQuizKnowAns(){
+    void resQuizKnowAns(String[][] some_choices){
         //Intent intent = new Intent(this, MainActivity4.class);
         Intent intent = new Intent(this, MainActivityAfterMain.class);
         //передача объекта с ключом "hello" и значением "Hello World"
         String text = "Вы получили " +score + " очков из " + totalQuestion + " возможных";
         intent.putExtra("hello", text);
         intent.putExtra("res", res);
-        intent.putExtra("totalQuestion", totalQuestion);
+        //intent.putExtra("totalQuestion", totalQuestion);
+        intent.putExtra("some_choices", some_choices);
         //запуск SecondActivitygj
         startActivity(intent);
 
@@ -188,10 +265,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-    @Override
-    public void onClick(View view) {
+    //j@Override
+    public void onClick(View view, String[][] some_choices) {
+        textToSpeech.speak(some_choices[currentQuestionIndex][0], TextToSpeech.QUEUE_ADD, null, null);
 
-
+        questionTextView.setText("--");
         Button clickedButton = (Button) view;
         //String selectedAnswer = clickedButton.getText().toString();
         if (clickedButton.getId() == R.id.btn_back){    // если нажата кнопка btnback то переход на mainactivity2
@@ -200,31 +278,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
         }
         else {
-            if (choices[currentQuestionIndex][0].equals("зАсветло")) {
+            if (some_choices[currentQuestionIndex][0].equals("зАсветло")) {
                 zasvetloSound = MediaPlayer.create(this, R.raw.zasvetloo);
                 soundPlat(zasvetloSound);
 
-                //questionTextView.setText("uu");
-                //MediaPlayer mediaPlayer = new MediaPlayer();
 
-               // String filePath = "C:\\Users\\Hp ZBook\\Downloads\\zasvetlo.ogg";
-
-               // try {
-                   // mediaPlayer.setDataSource(filePath);
-                    //mediaPlayer.prepare();
-                //} catch (IOException e) {
-                  //  questionTextView.setText("=");
-                    //e.printStackTrace();
-               // }
-               // mediaPlayer.start();
-               // mediaPlayer.release();
             } else {
                 // questionTextView.setText(choices[currentQuestionIndex][0]);
-                textToSpeech.speak(choices[currentQuestionIndex][0], TextToSpeech.QUEUE_ADD, null, null);
+                textToSpeech.speak(some_choices[currentQuestionIndex][0], TextToSpeech.QUEUE_ADD, null, null);
             }
             if (canClickFlag == 1) {
                 canClickFlag = 0;
-                if (clickedButton.getText().equals(choices[currentQuestionIndex][0])) {
+                if (clickedButton.getText().equals(some_choices[currentQuestionIndex][0])) {
                     clickedButton.setBackgroundColor(Color.GREEN);
                     res = res + "+";
                     score++;
@@ -240,10 +305,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    loadNewQuestion();
+                    loadNewQuestion(some_choices);
                 }).start();
             }
 
         }
     }
+
+
 }

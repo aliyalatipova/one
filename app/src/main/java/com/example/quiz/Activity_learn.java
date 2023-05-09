@@ -1,5 +1,7 @@
 package com.example.quiz;
 
+import static com.example.quiz.QuestionAnswer.choices;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -43,7 +45,7 @@ public class Activity_learn extends AppCompatActivity implements View.OnClickLis
         ansB.setOnClickListener((View.OnClickListener) this);
         submitBtn.setOnClickListener(this);
         btn_back.setOnClickListener(this);
-        Collections.shuffle(Arrays.asList(QuestionAnswer.choices));
+        Collections.shuffle(Arrays.asList(choices));
 
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
