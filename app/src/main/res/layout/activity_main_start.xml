@@ -36,7 +36,7 @@
 
             android:text="н"
             android:textAllCaps="false"
-            android:textColor="@color/black">
+            android:textColor="@color/white">
 
         </Button>
 
@@ -58,8 +58,22 @@
             android:id="@+id/btn_pril"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="прил"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btn_gl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:textAllCaps="false"
-            android:text="прил" />
+            android:text="глагол" />
+
+        <Button
+            android:id="@+id/btn_prich"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:text="прич" />
 
     </LinearLayout>
 

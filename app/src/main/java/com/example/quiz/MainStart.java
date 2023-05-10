@@ -2,7 +2,9 @@ package com.example.quiz;
 
 import static com.example.quiz.QuestionAnswer.choices;
 import static com.example.quiz.QuestionAnswer.choices_d;
+import static com.example.quiz.QuestionAnswer.choices_gl;
 import static com.example.quiz.QuestionAnswer.choices_n;
+import static com.example.quiz.QuestionAnswer.choices_prich;
 import static com.example.quiz.QuestionAnswer.choices_pril;
 import static com.example.quiz.QuestionAnswer.choices_s;
 
@@ -14,7 +16,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class MainStart extends AppCompatActivity implements View.OnClickListener {
-    Button btn_back1, btn_all, btn_d, btn_n, btn_s, btn_pril;
+    Button btn_back1, btn_all, btn_d, btn_n, btn_s, btn_pril, btn_gl, btn_prich;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,12 +29,19 @@ public class MainStart extends AppCompatActivity implements View.OnClickListener
        btn_d = findViewById(R.id.btn_d);
         btn_s = findViewById(R.id.btn_s);
         btn_pril = findViewById(R.id.btn_pril);
+
        btn_all.setOnClickListener(this);
        btn_n.setOnClickListener(this);
        btn_d.setOnClickListener(this);
         btn_s.setOnClickListener(this);
+        btn_pril = findViewById(R.id.btn_pril);
 
-        btn_pril.setOnClickListener(this);
+        btn_gl = findViewById(R.id.btn_gl);
+        btn_gl.setOnClickListener(this);
+       //
+        btn_prich= findViewById(R.id.btn_prich);
+        btn_prich.setOnClickListener(this);
+
         btn_back1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,6 +91,15 @@ public class MainStart extends AppCompatActivity implements View.OnClickListener
         }
         if(part.equals("прил")){
             startMainAct(choices_pril);
+        }
+        if(part.equals("прил")){
+            startMainAct(choices_pril);
+        }
+        if(part.equals("глагол")){
+            startMainAct(choices_gl);
+       }
+       if(part.equals("прил")){
+            startMainAct(choices_prich);
         }
 
 
