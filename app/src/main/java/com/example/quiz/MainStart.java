@@ -14,9 +14,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 public class MainStart extends AppCompatActivity implements View.OnClickListener {
     Button btn_back1, btn_all, btn_d, btn_n, btn_s, btn_pril, btn_gl, btn_prich;
+    CheckBox checkBox;
+    public int is_clicked=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +38,24 @@ public class MainStart extends AppCompatActivity implements View.OnClickListener
        btn_n.setOnClickListener(this);
        btn_d.setOnClickListener(this);
         btn_s.setOnClickListener(this);
-        btn_pril = findViewById(R.id.btn_pril);
+        btn_pril.setOnClickListener(this);
 
         btn_gl = findViewById(R.id.btn_gl);
         btn_gl.setOnClickListener(this);
        //
         btn_prich= findViewById(R.id.btn_prich);
         btn_prich.setOnClickListener(this);
+       // CheckBox checkBox = findViewById(R.id.checkBox);
+       // checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+          //  @Override
+          //  public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+               // if (isChecked) {
+                   // is_clicked=1;
+               // } else {
+                  //  is_clicked=0;
+               // }
+           // }
+       // });
 
         btn_back1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,6 +63,8 @@ public class MainStart extends AppCompatActivity implements View.OnClickListener
                 startMain2();
             }
         });
+
+
 
 
 
@@ -63,6 +80,7 @@ public class MainStart extends AppCompatActivity implements View.OnClickListener
 
        //запуск SecondActivitygj
         intent.putExtra("some_choices",some_choices);
+       //intent.putExtra("is_clicked",is_clicked);
        startActivity(intent);
    }
 
@@ -98,7 +116,7 @@ public class MainStart extends AppCompatActivity implements View.OnClickListener
         if(part.equals("глагол")){
             startMainAct(choices_gl);
        }
-       if(part.equals("прил")){
+       if(part.equals("прич")){
             startMainAct(choices_prich);
         }
 

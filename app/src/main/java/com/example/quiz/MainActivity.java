@@ -59,9 +59,9 @@ public class MainActivity extends AppCompatActivity  {
 
         String[][] some_choices = (String[][]) getIntent().getSerializableExtra("some_choices");
 
-       // totalQuestion = some_choices.length;
+        totalQuestion = some_choices.length;
 
-         Collections.shuffle(Arrays.asList(some_choices));
+        //Collections.shuffle(Arrays.asList(some_choices));
         questionTextView.setText("");
 
         textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity  {
 
         res = "";
         ansA.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 a_clicked(some_choices);
@@ -92,12 +93,14 @@ public class MainActivity extends AppCompatActivity  {
                 b_clicked(some_choices);
             }
         });
-       // btn_back.setOnClickListener(this);
+        // btn_back.setOnClickListener(this);
         loadNewQuestion(some_choices);
 
     }
 
     public void a_clicked(String[][] some_choices){
+        //надо потом убрать
+        questionTextView.setText(some_choices[currentQuestionIndex][0]); //убрать
         if (some_choices[currentQuestionIndex][0].equals("зАсветло")) {
             zasvetloSound = MediaPlayer.create(this, R.raw.zasvetloo);
             soundPlat(zasvetloSound);
@@ -128,6 +131,8 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     public void b_clicked(String[][] some_choices){
+        //надо потом убрать
+        questionTextView.setText(some_choices[currentQuestionIndex][0]); //убрать
         //  ansA.setBackgroundColor(Color.MAGENTA);
         if (some_choices[currentQuestionIndex][0].equals("зАсветло")) {
             zasvetloSound = MediaPlayer.create(this, R.raw.zasvetloo);
@@ -203,10 +208,10 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     private void loadNewQuestion(String[][] some_choices) {
-            if (currentQuestionIndex == totalQuestion){
-                //questionTextView.setText("-");
-                resQuizKnowAns(some_choices);
-                return;
+        if (currentQuestionIndex == totalQuestion){
+            //questionTextView.setText("-");
+            resQuizKnowAns(some_choices);
+            return;
         }
 
 
@@ -273,41 +278,41 @@ public class MainActivity extends AppCompatActivity  {
         Button clickedButton = (Button) view;
         //String selectedAnswer = clickedButton.getText().toString();
         //if (clickedButton.getId() == R.id.btn_back){    // если нажата кнопка btnback то переход на mainactivity2
-            //btn_back.setText("");
-            //Intent intent = new Intent(this, MainActivity2.class);
-           // startActivity(intent);
-       // }
+        //btn_back.setText("");
+        //Intent intent = new Intent(this, MainActivity2.class);
+        // startActivity(intent);
+        // }
 
-            if (some_choices[currentQuestionIndex][0].equals("зАсветло")) {
-                zasvetloSound = MediaPlayer.create(this, R.raw.zasvetloo);
-                soundPlat(zasvetloSound);
+        if (some_choices[currentQuestionIndex][0].equals("зАсветло")) {
+            zasvetloSound = MediaPlayer.create(this, R.raw.zasvetloo);
+            soundPlat(zasvetloSound);
 
 
+        } else {
+            // questionTextView.setText(choices[currentQuestionIndex][0]);
+            textToSpeech.speak(some_choices[currentQuestionIndex][0], TextToSpeech.QUEUE_ADD, null, null);
+        }
+        if (canClickFlag == 1) {
+            canClickFlag = 0;
+            if (clickedButton.getText().equals(some_choices[currentQuestionIndex][0])) {
+                clickedButton.setBackgroundColor(Color.GREEN);
+                res = res + "+";
+                score++;
             } else {
-                // questionTextView.setText(choices[currentQuestionIndex][0]);
-                textToSpeech.speak(some_choices[currentQuestionIndex][0], TextToSpeech.QUEUE_ADD, null, null);
+                clickedButton.setBackgroundColor(Color.RED);
+                res = res + "-";
             }
-            if (canClickFlag == 1) {
-                canClickFlag = 0;
-                if (clickedButton.getText().equals(some_choices[currentQuestionIndex][0])) {
-                    clickedButton.setBackgroundColor(Color.GREEN);
-                    res = res + "+";
-                    score++;
-                } else {
-                    clickedButton.setBackgroundColor(Color.RED);
-                    res = res + "-";
-                }
 
-                currentQuestionIndex++;
-                new Thread(() -> {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    loadNewQuestion(some_choices);
-                }).start();
-            }
+            currentQuestionIndex++;
+            new Thread(() -> {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                loadNewQuestion(some_choices);
+            }).start();
+        }
 
 
     }

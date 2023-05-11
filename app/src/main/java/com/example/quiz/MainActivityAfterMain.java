@@ -42,7 +42,7 @@ public class MainActivityAfterMain extends AppCompatActivity {
         create_btn_s(res, some_choices);
         btn_try = new Button(this);
         btn_try.setAllCaps(false);
-        btn_try.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        btn_try.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         // btn[i].setText(some_choices[i][0]);
         int id=View.generateViewId();
         btn_try.setId(id);
