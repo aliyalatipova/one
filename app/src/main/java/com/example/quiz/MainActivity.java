@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity  {
 
     int canClickFlag = 1;
     int score = 0;
-    public int totalQuestion = 5;
+    public int totalQuestion = 2;
     int currentQuestionIndex = 0;
 
     @Override
@@ -59,9 +59,9 @@ public class MainActivity extends AppCompatActivity  {
 
         String[][] some_choices = (String[][]) getIntent().getSerializableExtra("some_choices");
 
-        totalQuestion = some_choices.length;
+        //totalQuestion = some_choices.length;
 
-        //Collections.shuffle(Arrays.asList(some_choices));
+        Collections.shuffle(Arrays.asList(some_choices));
         questionTextView.setText("");
 
         textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {

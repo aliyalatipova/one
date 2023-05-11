@@ -18,11 +18,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:id="@+id/layout_after"
-        android:layout_width="1203dp"
-        android:layout_height="1778dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="40dp"
+        android:id="@+id/layout_af_main"
+        android:layout_width="354dp"
+        android:layout_height="598dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4"></LinearLayout>

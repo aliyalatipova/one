@@ -31,7 +31,7 @@ public class MainActivityAfterMain extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_after_main);
-        layout_for_txt = findViewById(R.id.layout_after);
+        layout_for_txt = findViewById(R.id.layout_af_main);
         textView_with_res = findViewById(R.id.textView4);
         Bundle arguments = getIntent().getExtras();
         String res = arguments.get("res").toString();
@@ -66,7 +66,7 @@ public class MainActivityAfterMain extends AppCompatActivity {
         for (int i = 0; i < list_len; ++i) {
             btn[i] = new Button(this);
             btn[i].setAllCaps(false);
-            btn[i].setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            btn[i].setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
            // btn[i].setText(some_choices[i][0]);
             btn[i].setId(i);
             int index_of_true_letter = find_true_bid_index(i, some_choices);
