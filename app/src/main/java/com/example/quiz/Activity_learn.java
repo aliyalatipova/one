@@ -23,10 +23,10 @@ public class Activity_learn extends AppCompatActivity implements View.OnClickLis
     Button submitBtn;
     int score = 0;
     int scoreInOneQ = 0;//тут типа количесво очков за один вопросикк
-    String resInOneQ="-";
+    //String resInOneQ="-";
     int currentQuestionIndex=-1;
     int totalQuestion=0;
-    public String res = "";
+    public String res="";
     String selected_ans_str = ""; // последний типа выбранный стринг
     int canNextQ = 0; //типа флаг нажата ли какая-то кнопка из вариков чтобы можно было двигаться дальше
     @Override
@@ -97,6 +97,7 @@ public class Activity_learn extends AppCompatActivity implements View.OnClickLis
             }
         }
         else{
+            String resInOneQ;
             if (clickedButton == ansA){
                 ansA.setBackgroundColor(Color.MAGENTA);
                 //selected_ans_str = ansA.getText().toString();
@@ -104,11 +105,11 @@ public class Activity_learn extends AppCompatActivity implements View.OnClickLis
 
                 if (selectedAnswer.equals(QuestionAnswer.choices[currentQuestionIndex][0])){
                     scoreInOneQ = 1;
-                    String resInOneQ="+";
+
                 }
                 else{
                     scoreInOneQ=0;
-                    String resInOneQ="-";
+
                 }
             }
             if (clickedButton == ansB){
@@ -117,16 +118,21 @@ public class Activity_learn extends AppCompatActivity implements View.OnClickLis
                 canNextQ = 1;
                 if (ansB.getText().toString().equals(QuestionAnswer.choices[currentQuestionIndex][0])){
                     scoreInOneQ=1;
-                    String resInOneQ="+";
+
                 }
                 else{
                     scoreInOneQ=0;
-                    String resInOneQ="-";
+
                 }
             }
             if (clickedButton == submitBtn){
                 score = score + scoreInOneQ;
-                res = res + resInOneQ;
+                if (scoreInOneQ==1){
+                    res = res +"+";
+                }else{
+                    res = res +"-";
+                }
+
 
                 currentQuestionIndex ++;
 

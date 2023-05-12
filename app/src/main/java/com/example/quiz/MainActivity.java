@@ -4,6 +4,8 @@ package com.example.quiz;
 
 //import static com.example.quiz.QuestionAnswer.choices;
 
+import static java.lang.Integer.parseInt;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
@@ -44,7 +46,7 @@ public class MainActivity extends AppCompatActivity  {
 
     int canClickFlag = 1;
     int score = 0;
-    public int totalQuestion = 2;
+    public int totalQuestion = 5;
     int currentQuestionIndex = 0;
 
     @Override
@@ -58,8 +60,14 @@ public class MainActivity extends AppCompatActivity  {
         ansB = findViewById(R.id.ans_B);
 
         String[][] some_choices = (String[][]) getIntent().getSerializableExtra("some_choices");
-
+        Bundle arguments = getIntent().getExtras();
+        //int len = parseInt(arguments.get("hello").toString());
         //totalQuestion = some_choices.length;
+
+        totalQuestion = parseInt(arguments.get("len").toString());
+        if (totalQuestion >some_choices.length){
+            totalQuestion=some_choices.length;
+        }
 
         Collections.shuffle(Arrays.asList(some_choices));
         questionTextView.setText("");
@@ -99,8 +107,7 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     public void a_clicked(String[][] some_choices){
-        //надо потом убрать
-        questionTextView.setText(some_choices[currentQuestionIndex][0]); //убрать
+
         if (some_choices[currentQuestionIndex][0].equals("зАсветло")) {
             zasvetloSound = MediaPlayer.create(this, R.raw.zasvetloo);
             soundPlat(zasvetloSound);
@@ -131,8 +138,7 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     public void b_clicked(String[][] some_choices){
-        //надо потом убрать
-        questionTextView.setText(some_choices[currentQuestionIndex][0]); //убрать
+
         //  ansA.setBackgroundColor(Color.MAGENTA);
         if (some_choices[currentQuestionIndex][0].equals("зАсветло")) {
             zasvetloSound = MediaPlayer.create(this, R.raw.zasvetloo);

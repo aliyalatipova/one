@@ -84,7 +84,9 @@ public class MainActivity3 extends AppCompatActivity {
     }
 
     public void create_btn_s(String res){
-        int list_len = min(res.length(), choices.length);
+        int list_len =res.length();
+
+
         Button[] btn = new Button[list_len+1];
         for (int i = 0; i < list_len; ++i) {
             btn[i] = new Button(this);

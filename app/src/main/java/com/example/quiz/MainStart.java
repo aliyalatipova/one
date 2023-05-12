@@ -75,7 +75,7 @@ public class MainStart extends AppCompatActivity implements View.OnClickListener
 
 
    public void startMainAct(String[][] some_choices){
-       Intent intent = new Intent(this, MainActivity.class);
+       Intent intent = new Intent(this, how_many_q.class);
        //передача объекта с ключом "hello" и значением "Hello World"
 
        //запуск SecondActivitygj

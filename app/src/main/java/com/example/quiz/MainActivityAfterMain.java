@@ -47,7 +47,7 @@ public class MainActivityAfterMain extends AppCompatActivity {
         int id=View.generateViewId();
         btn_try.setId(id);
         btn_try.setText("again");
-        btn_try.setBackgroundColor(Color.MAGENTA);
+        btn_try.setBackgroundColor(Color.parseColor("#be3455"));
         layout_for_txt.addView(btn_try);
         btn_try.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,10 +85,15 @@ public class MainActivityAfterMain extends AppCompatActivity {
                 redSpannable.setSpan(new ForegroundColorSpan(Color.GREEN), index_of_true_letter, index_of_true_letter+1, 0);
                 redSpannable.setSpan(new ForegroundColorSpan(Color.RED), index_of_false_letter, index_of_false_letter+1, 0);
                 builder.append(redSpannable);
+               // btn[i].setBackgroundColor(Color.parseColor(	"#6C6960,"));
             }else{
                 SpannableString greenSpannable = new SpannableString(true_wr_txt);
                 greenSpannable.setSpan(new ForegroundColorSpan(Color.GREEN), index_of_true_letter, index_of_true_letter+1, 0);
                 builder.append(greenSpannable);
+               // btn[i].setBackgroundColor(Color.rgb(108,105,96));
+
+
+
             }
 
 
