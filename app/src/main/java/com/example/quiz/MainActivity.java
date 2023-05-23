@@ -4,6 +4,10 @@ package com.example.quiz;
 
 //import static com.example.quiz.QuestionAnswer.choices;
 
+import java.util.List;
+
+
+
 import static java.lang.Integer.parseInt;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,6 +46,11 @@ public class MainActivity extends AppCompatActivity  {
     private TextToSpeech textToSpeech;
     private MediaPlayer zasvetloSound;
     public String[][] some_choices;
+    public List<String> special = Arrays.asList(
+            "дОнизу",
+            "зАсветло",
+            "дОверху"
+    );
 
 
     int canClickFlag = 1;
@@ -56,6 +65,8 @@ public class MainActivity extends AppCompatActivity  {
         totalQuestionsTextView = findViewById(R.id.total_question);
         questionTextView = findViewById(R.id.question);
 
+
+
         ansA = findViewById(R.id.ans_A);
         ansB = findViewById(R.id.ans_B);
 
@@ -65,12 +76,14 @@ public class MainActivity extends AppCompatActivity  {
         //totalQuestion = some_choices.length;
 
         totalQuestion = parseInt(arguments.get("len").toString());
+
         if (totalQuestion >some_choices.length){
             totalQuestion=some_choices.length;
         }
 
+
         Collections.shuffle(Arrays.asList(some_choices));
-        questionTextView.setText("");
+
 
         textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
@@ -108,10 +121,33 @@ public class MainActivity extends AppCompatActivity  {
 
     public void a_clicked(String[][] some_choices){
 
-        if (some_choices[currentQuestionIndex][0].equals("зАсветло")) {
-            zasvetloSound = MediaPlayer.create(this, R.raw.zasvetloo);
-            soundPlat(zasvetloSound);
+       // if (some_choices[currentQuestionIndex][0].equals("зАсветло")) {
+           // zasvetloSound = MediaPlayer.create(this, R.raw.zasvetloo);
+           // soundPlat(zasvetloSound);
+
+        if (special.contains(some_choices[currentQuestionIndex][0])) {
+            questionTextView.setText("+");
+            //zasvetloSound = MediaPlayer.create(this, R.raw.zasvetloo);
+            if(some_choices[currentQuestionIndex][0].equals("зАсветло")){
+                zasvetloSound = MediaPlayer.create(this, R.raw.zasvetloo);
+                soundPlat(zasvetloSound);
+            }
+            if(some_choices[currentQuestionIndex][0].equals("дОнизу")){
+                zasvetloSound = MediaPlayer.create(this, R.raw.donizy1);
+                soundPlat(zasvetloSound);
+            }
+            if(some_choices[currentQuestionIndex][0].equals("дОверху")){
+                zasvetloSound = MediaPlayer.create(this, R.raw.doverhy);
+                soundPlat(zasvetloSound);
+            }
+
+
         }else{
+            questionTextView.setText("");
+            //if (some_choices[currentQuestionIndex][0].equals("зАсветло")) {
+                //zasvetloSound = MediaPlayer.create(this, R.raw.zasvetloo);
+                //soundPlat(zasvetloSound);
+
             textToSpeech.speak(some_choices[currentQuestionIndex][0], TextToSpeech.QUEUE_ADD, null, null);
         }
 
@@ -159,7 +195,7 @@ public class MainActivity extends AppCompatActivity  {
             currentQuestionIndex++;
             new Thread(() -> {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(10);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -247,7 +283,7 @@ public class MainActivity extends AppCompatActivity  {
         //Intent intent = new Intent(this, MainActivity4.class);
         Intent intent = new Intent(this, MainActivityAfterMain.class);
         //передача объекта с ключом "hello" и значением "Hello World"
-        String text = "Вы получили " +score + " из " + totalQuestion + " возможных очков";
+        String text = "" +score + "/" + totalQuestion;
         intent.putExtra("hello", text);
         intent.putExtra("res", res);
         //intent.putExtra("totalQuestion", totalQuestion);
@@ -282,12 +318,7 @@ public class MainActivity extends AppCompatActivity  {
 
         questionTextView.setText("--");
         Button clickedButton = (Button) view;
-        //String selectedAnswer = clickedButton.getText().toString();
-        //if (clickedButton.getId() == R.id.btn_back){    // если нажата кнопка btnback то переход на mainactivity2
-        //btn_back.setText("");
-        //Intent intent = new Intent(this, MainActivity2.class);
-        // startActivity(intent);
-        // }
+
 
         if (some_choices[currentQuestionIndex][0].equals("зАсветло")) {
             zasvetloSound = MediaPlayer.create(this, R.raw.zasvetloo);

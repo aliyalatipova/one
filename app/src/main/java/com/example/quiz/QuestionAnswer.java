@@ -1,11 +1,18 @@
 package com.example.quiz;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class QuestionAnswer {
     public static String question[]={
         "ура", "как зовут тетю Эды?", "eeeee"
     };
+
+
+
+    String word = "apple";
+
 
     public static String choices_d[][]={
         {"закУпорив","закупорИв", "д"},

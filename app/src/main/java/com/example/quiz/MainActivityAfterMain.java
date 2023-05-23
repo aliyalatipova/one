@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -24,7 +25,7 @@ public class MainActivityAfterMain extends AppCompatActivity {
     public LinearLayout layout_for_txt;
     public TextView textView_with_res; // в xml это textView4
     String[][] some_choices;
-    Button btn_try;
+    Button btn_try, btn_again;
     public int totalQ=0;
 
     @Override
@@ -40,16 +41,21 @@ public class MainActivityAfterMain extends AppCompatActivity {
         textView_with_res.setText(text);
 
         create_btn_s(res, some_choices);
-        btn_try = new Button(this);
-        btn_try.setAllCaps(false);
-        btn_try.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        // сохдание byn_try
+        btn_again = findViewById(R.id.button_again);
+        btn_again.setAllCaps(false);
+       // btn_again.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
         // btn[i].setText(some_choices[i][0]);
-        int id=View.generateViewId();
-        btn_try.setId(id);
-        btn_try.setText("again");
-        btn_try.setBackgroundColor(Color.parseColor("#be3455"));
-        layout_for_txt.addView(btn_try);
-        btn_try.setOnClickListener(new View.OnClickListener() {
+
+        // btn_try.setBackgroundColor(Color.RED);
+        btn_again.setBackgroundColor(Color.parseColor("#be3455"));
+        GradientDrawable shape = new GradientDrawable();
+        shape.setColor(Color.parseColor("#be3455"));
+        btn_again.setTextColor(Color.WHITE);
+        shape.setCornerRadius(30);
+        btn_again.setBackground(shape);
+
+        btn_again.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startMainStart();
@@ -62,6 +68,13 @@ public class MainActivityAfterMain extends AppCompatActivity {
 
     public void create_btn_s(String res, String[][] some_choices){
         int list_len = min(res.length(), some_choices.length);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+
+// задаем отступы между кнопками
+        params.setMargins(100, 100, 100, 50);
         Button[] btn = new Button[list_len+1];
         for (int i = 0; i < list_len; ++i) {
             btn[i] = new Button(this);
@@ -85,23 +98,31 @@ public class MainActivityAfterMain extends AppCompatActivity {
                 redSpannable.setSpan(new ForegroundColorSpan(Color.GREEN), index_of_true_letter, index_of_true_letter+1, 0);
                 redSpannable.setSpan(new ForegroundColorSpan(Color.RED), index_of_false_letter, index_of_false_letter+1, 0);
                 builder.append(redSpannable);
-               // btn[i].setBackgroundColor(Color.parseColor(	"#6C6960,"));
+
             }else{
                 SpannableString greenSpannable = new SpannableString(true_wr_txt);
                 greenSpannable.setSpan(new ForegroundColorSpan(Color.GREEN), index_of_true_letter, index_of_true_letter+1, 0);
                 builder.append(greenSpannable);
-               // btn[i].setBackgroundColor(Color.rgb(108,105,96));
+
 
 
 
             }
+            //GradientDrawable shape = new GradientDrawable();
+            //shape.setColor(Color.parseColor("#be3455"));
+
+           // shape.setCornerRadius(30);
+            //btn[i].setBackground(shape);
 
 
             btn[i].setText(builder);
+            
+
 
             // слой, к которому кнопку хотите прикрепить
             layout_for_txt.addView(btn[i]);
         }
+
 
 
     }
@@ -112,6 +133,8 @@ public class MainActivityAfterMain extends AppCompatActivity {
 
 
     public void createTextView(String res, String[][] some_choices){
+
+
         //totalQ = res.length(); //длина стоски из плюсов и минусов
         totalQ = min(some_choices.length, res.length());
         TextView[] txt = new TextView[totalQ];

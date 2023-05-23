@@ -45,17 +45,7 @@ public class MainStart extends AppCompatActivity implements View.OnClickListener
        //
         btn_prich= findViewById(R.id.btn_prich);
         btn_prich.setOnClickListener(this);
-       // CheckBox checkBox = findViewById(R.id.checkBox);
-       // checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-          //  @Override
-          //  public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-               // if (isChecked) {
-                   // is_clicked=1;
-               // } else {
-                  //  is_clicked=0;
-               // }
-           // }
-       // });
+
 
         btn_back1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,14 +84,14 @@ public class MainStart extends AppCompatActivity implements View.OnClickListener
     public void onClick(View view) {
         Button clickedButton = (Button) view;
         String part = clickedButton.getText().toString();
-        if (part.equals("н")){
+        if (part.equals("наречия")){
             startMainAct(choices_n);
         }
 
         if(part.equals("микс")){
             startMainAct(choices);
         }
-        if(part.equals("д")){
+        if(part.equals("деепричастия")){
             startMainAct(choices_d);
         }
         if(part.equals("сущ")){

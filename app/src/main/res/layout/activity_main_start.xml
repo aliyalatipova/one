@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
 
-            android:text="н"
+            android:text="наречия"
             android:textAllCaps="false"
             android:textColor="@color/black">
 
@@ -44,15 +44,15 @@
             android:id="@+id/btn_d"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAllCaps="false"
-            android:text="д" />
+            android:text="деепричастия"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/btn_s"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAllCaps="false"
-            android:text="сущ" />
+            android:text="сущ"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/btn_pril"
@@ -65,15 +65,15 @@
             android:id="@+id/btn_gl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAllCaps="false"
-            android:text="глагол" />
+            android:text="глагол"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/btn_prich"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAllCaps="false"
-            android:text="прич" />
+            android:text="прич"
+            android:textAllCaps="false" />
 
     </LinearLayout>
 
